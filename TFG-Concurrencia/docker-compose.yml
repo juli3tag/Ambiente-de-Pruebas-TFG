@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: tfg_postgres
+    environment:
+      POSTGRES_USER: tfg_user
+      POSTGRES_PASSWORD: tfg_password
+      POSTGRES_DB: tfg_concurrencia
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    command: ["postgres", "-c", "transaction_isolation=read committed"]
+
+volumes:
+  pgdata:
